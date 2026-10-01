@@ -91,64 +91,101 @@ function escapeHtml(value) {
    SCORE
 ========================= */
 
-function updateScore(score) {
+function updateScore(score, signals = []) {
 
-    scoreValue.textContent = score;
+    scoreValue.textContent =
+        score;
 
 
-    if (score >= 90) {
+    /*
+       No warning signals + 90 or above
+       = Strong basic signals
+    */
+
+    if (
+        signals.length === 0 &&
+        score >= 90
+    ) {
 
         scoreTitle.textContent =
             "Strong basic signals";
 
+
         scoreDescription.textContent =
             "WebGuard found no obvious warning signals.";
+
 
         scoreValue.style.color =
             "#4ade80";
 
-        return;
-
-    }
-
-
-    if (score >= 70) {
-
-        scoreTitle.textContent =
-            "Mostly normal";
-
-        scoreDescription.textContent =
-            "A few signals may need a quick review.";
-
-        scoreValue.style.color =
-            "#a3e635";
 
         return;
 
     }
 
 
-    if (score >= 50) {
+    /*
+       Warning signals detected
+       but overall score is still 70+
+    */
+
+    if (
+        score >= 70
+    ) {
 
         scoreTitle.textContent =
             "Review recommended";
 
+
         scoreDescription.textContent =
-            "Some website signals need attention.";
+            "A few website signals may need a quick review.";
+
 
         scoreValue.style.color =
-            "#fbbf24";
+            "#a3e635";
+
 
         return;
 
     }
 
 
+    /*
+       Medium score
+    */
+
+    if (
+        score >= 50
+    ) {
+
+        scoreTitle.textContent =
+            "Review recommended";
+
+
+        scoreDescription.textContent =
+            "Some website signals need attention.";
+
+
+        scoreValue.style.color =
+            "#fbbf24";
+
+
+        return;
+
+    }
+
+
+    /*
+       Low score
+    */
+
     scoreTitle.textContent =
         "Multiple signals detected";
 
+
     scoreDescription.textContent =
         "Several website signals should be reviewed.";
+
 
     scoreValue.style.color =
         "#f87171";
@@ -162,7 +199,9 @@ function updateScore(score) {
 
 function updateSecurityTip(score, signals) {
 
-    if (signals.length === 0) {
+    if (
+        signals.length === 0
+    ) {
 
         tipsText.textContent =
             "HTTPS is enabled, but always verify the website address before entering sensitive information.";
@@ -172,7 +211,9 @@ function updateSecurityTip(score, signals) {
     }
 
 
-    if (score >= 70) {
+    if (
+        score >= 70
+    ) {
 
         tipsText.textContent =
             "Some website signals need attention. Double-check the domain before entering passwords or personal information.";
@@ -194,7 +235,9 @@ function updateSecurityTip(score, signals) {
 
 function updateSignalDetails(signals) {
 
-    if (signals.length === 0) {
+    if (
+        signals.length === 0
+    ) {
 
         signalList.innerHTML =
             "✓ No obvious warning signals detected<br>" +
@@ -206,7 +249,10 @@ function updateSignalDetails(signals) {
 
 
     const visibleSignals =
-        signals.slice(0, 4);
+        signals.slice(
+            0,
+            4
+        );
 
 
     signalList.innerHTML =
@@ -220,11 +266,15 @@ function updateSignalDetails(signals) {
             .join("<br>");
 
 
-    if (signals.length > 4) {
+    if (
+        signals.length > 4
+    ) {
 
         signalList.innerHTML +=
             "<br>+ " +
-            (signals.length - 4) +
+            (
+                signals.length - 4
+            ) +
             " additional signal(s)";
 
     }
@@ -236,34 +286,62 @@ function updateSignalDetails(signals) {
    HISTORY STATUS
 ========================= */
 
-function getHistoryStatus(score, signals) {
+function getHistoryStatus(
+    score,
+    signals
+) {
 
-    if (signals.length === 0) {
+    if (
+        signals.length === 0
+    ) {
 
         return {
-            icon: "✓",
-            text: "Normal",
-            color: "#4ade80"
+
+            icon:
+                "✓",
+
+            text:
+                "Normal",
+
+            color:
+                "#4ade80"
+
         };
 
     }
 
 
-    if (score >= 70) {
+    if (
+        score >= 70
+    ) {
 
         return {
-            icon: "!",
-            text: "Review",
-            color: "#fbbf24"
+
+            icon:
+                "!",
+
+            text:
+                "Review",
+
+            color:
+                "#fbbf24"
+
         };
 
     }
 
 
     return {
-        icon: "⚠",
-        text: "Attention",
-        color: "#f87171"
+
+        icon:
+            "⚠",
+
+        text:
+            "Attention",
+
+        color:
+            "#f87171"
+
     };
 
 }
@@ -290,7 +368,9 @@ function storageAvailable() {
 
 async function saveScanHistory(data) {
 
-    if (!storageAvailable()) {
+    if (
+        !storageAvailable()
+    ) {
 
         console.warn(
             "WebGuard storage permission is unavailable."
@@ -317,7 +397,9 @@ async function saveScanHistory(data) {
                 : [];
 
 
-        history.unshift(data);
+        history.unshift(
+            data
+        );
 
 
         history =
@@ -356,7 +438,9 @@ async function saveScanHistory(data) {
 
 async function displayHistory() {
 
-    if (!storageAvailable()) {
+    if (
+        !storageAvailable()
+    ) {
 
         scanHistory.innerHTML =
             '<div class="history-empty">' +
@@ -384,7 +468,9 @@ async function displayHistory() {
                 : [];
 
 
-        if (history.length === 0) {
+        if (
+            history.length === 0
+        ) {
 
             scanHistory.innerHTML =
                 '<div class="history-empty">' +
@@ -396,88 +482,95 @@ async function displayHistory() {
         }
 
 
-        scanHistory.innerHTML = "";
+        scanHistory.innerHTML =
+            "";
 
 
-        history.forEach(item => {
+        history.forEach(
+            item => {
 
-            const signals =
-                Array.isArray(item.signals)
-                    ? item.signals
-                    : [];
+                const signals =
+                    Array.isArray(
+                        item.signals
+                    )
+                        ? item.signals
+                        : [];
 
 
-            const status =
-                getHistoryStatus(
-                    Number(item.score) || 0,
-                    signals
+                const status =
+                    getHistoryStatus(
+                        Number(item.score) || 0,
+                        signals
+                    );
+
+
+                const historyItem =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                historyItem.className =
+                    "history-item";
+
+
+                historyItem.innerHTML = `
+
+                    <div
+                        class="history-icon"
+                        style="color:${status.color};"
+                    >
+                        ${status.icon}
+                    </div>
+
+
+                    <div class="history-content">
+
+                        <span class="history-domain">
+                            ${escapeHtml(
+                                item.domain ||
+                                "Unknown"
+                            )}
+                        </span>
+
+
+                        <span class="history-time">
+                            ${escapeHtml(
+                                item.time ||
+                                "Unknown time"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="history-score">
+
+                        <div
+                            style="color:${status.color};"
+                        >
+                            ${Number(item.score) || 0}
+                        </div>
+
+
+                        <div
+                            class="history-status"
+                            style="color:${status.color};"
+                        >
+                            ${status.text}
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                scanHistory.appendChild(
+                    historyItem
                 );
 
-
-            const historyItem =
-                document.createElement("div");
-
-
-            historyItem.className =
-                "history-item";
-
-
-            historyItem.innerHTML = `
-
-                <div
-                    class="history-icon"
-                    style="color:${status.color};"
-                >
-                    ${status.icon}
-                </div>
-
-
-                <div class="history-content">
-
-                    <span class="history-domain">
-                        ${escapeHtml(
-                            item.domain ||
-                            "Unknown"
-                        )}
-                    </span>
-
-
-                    <span class="history-time">
-                        ${escapeHtml(
-                            item.time ||
-                            "Unknown time"
-                        )}
-                    </span>
-
-                </div>
-
-
-                <div class="history-score">
-
-                    <div
-                        style="color:${status.color};"
-                    >
-                        ${Number(item.score) || 0}
-                    </div>
-
-
-                    <div
-                        class="history-status"
-                        style="color:${status.color};"
-                    >
-                        ${status.text}
-                    </div>
-
-                </div>
-
-            `;
-
-
-            scanHistory.appendChild(
-                historyItem
-            );
-
-        });
+            }
+        );
 
     }
     catch (error) {
@@ -504,21 +597,29 @@ async function displayHistory() {
 
 async function clearScanHistory() {
 
-    if (!storageAvailable()) {
+    if (
+        !storageAvailable()
+    ) {
 
         console.warn(
             "WebGuard storage permission is unavailable."
         );
 
+
         clearHistory.textContent =
             "⚠ Storage unavailable";
 
-        setTimeout(() => {
 
-            clearHistory.textContent =
-                "🗑️ Clear History";
+        setTimeout(
+            () => {
 
-        }, 1500);
+                clearHistory.textContent =
+                    "🗑️ Clear History";
+
+            },
+            1500
+        );
+
 
         return;
 
@@ -539,12 +640,15 @@ async function clearScanHistory() {
             "✓ History Cleared";
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            clearHistory.textContent =
-                "🗑️ Clear History";
+                clearHistory.textContent =
+                    "🗑️ Clear History";
 
-        }, 1500);
+            },
+            1500
+        );
 
     }
     catch (error) {
@@ -559,12 +663,15 @@ async function clearScanHistory() {
             "⚠ Clear failed";
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            clearHistory.textContent =
-                "🗑️ Clear History";
+                clearHistory.textContent =
+                    "🗑️ Clear History";
 
-        }, 1500);
+            },
+            1500
+        );
 
     }
 
@@ -577,7 +684,9 @@ async function clearScanHistory() {
 
 async function copyCurrentUrl() {
 
-    if (!currentPageUrl) {
+    if (
+        !currentPageUrl
+    ) {
 
         return;
 
@@ -599,12 +708,15 @@ async function copyCurrentUrl() {
             "✓ URL Copied";
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            copyUrl.textContent =
-                originalText;
+                copyUrl.textContent =
+                    originalText;
 
-        }, 1500);
+            },
+            1500
+        );
 
     }
     catch (error) {
@@ -624,6 +736,7 @@ async function copyCurrentUrl() {
             textarea.style.position =
                 "fixed";
 
+
             textarea.style.opacity =
                 "0";
 
@@ -634,6 +747,7 @@ async function copyCurrentUrl() {
 
 
             textarea.focus();
+
 
             textarea.select();
 
@@ -650,12 +764,15 @@ async function copyCurrentUrl() {
                 "✓ URL Copied";
 
 
-            setTimeout(() => {
+            setTimeout(
+                () => {
 
-                copyUrl.textContent =
-                    originalText;
+                    copyUrl.textContent =
+                        originalText;
 
-            }, 1500);
+                },
+                1500
+            );
 
         }
         catch (fallbackError) {
@@ -670,12 +787,15 @@ async function copyCurrentUrl() {
                 "⚠ Copy failed";
 
 
-            setTimeout(() => {
+            setTimeout(
+                () => {
 
-                copyUrl.textContent =
-                    originalText;
+                    copyUrl.textContent =
+                        originalText;
 
-            }, 1500);
+                },
+                1500
+            );
 
         }
 
@@ -741,8 +861,10 @@ function resetScanUI() {
     httpsStatus.style.color =
         "";
 
+
     urlStatus.style.color =
         "";
+
 
     connectionStatus.style.color =
         "";
@@ -758,6 +880,7 @@ function resetScanUI() {
 
     result.style.background =
         "";
+
 
     result.style.borderColor =
         "";
@@ -871,9 +994,11 @@ async function scanWebsite() {
         const tabs =
             await chrome.tabs.query({
 
-                active: true,
+                active:
+                    true,
 
-                currentWindow: true
+                currentWindow:
+                    true
 
             });
 
@@ -885,7 +1010,10 @@ async function scanWebsite() {
                 : null;
 
 
-        if (!tab || !tab.url) {
+        if (
+            !tab ||
+            !tab.url
+        ) {
 
             showUnavailable(
                 "WebGuard could not access the current browser page."
@@ -909,9 +1037,14 @@ async function scanWebsite() {
             new Date().toLocaleTimeString(
                 [],
                 {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit"
+                    hour:
+                        "2-digit",
+
+                    minute:
+                        "2-digit",
+
+                    second:
+                        "2-digit"
                 }
             );
 
@@ -922,7 +1055,9 @@ async function scanWebsite() {
         try {
 
             url =
-                new URL(tab.url);
+                new URL(
+                    tab.url
+                );
 
         }
         catch (error) {
@@ -988,7 +1123,8 @@ async function scanWebsite() {
                 "#fbbf24";
 
 
-            score -= 25;
+            score -=
+                25;
 
 
             addSignal(
@@ -1038,7 +1174,8 @@ async function scanWebsite() {
                 "#fbbf24";
 
 
-            score -= 20;
+            score -=
+                20;
 
 
             addSignal(
@@ -1076,7 +1213,8 @@ async function scanWebsite() {
                 "#fbbf24";
 
 
-            score -= 20;
+            score -=
+                20;
 
 
             addSignal(
@@ -1101,7 +1239,8 @@ async function scanWebsite() {
             )
         ) {
 
-            score -= 15;
+            score -=
+                15;
 
 
             addSignal(
@@ -1120,7 +1259,8 @@ async function scanWebsite() {
             tab.url.length > 180
         ) {
 
-            score -= 10;
+            score -=
+                10;
 
 
             addSignal(
@@ -1139,7 +1279,8 @@ async function scanWebsite() {
             hostnameParts.length >= 5
         ) {
 
-            score -= 10;
+            score -=
+                10;
 
 
             addSignal(
@@ -1159,7 +1300,8 @@ async function scanWebsite() {
             tab.url.includes("\\")
         ) {
 
-            score -= 15;
+            score -=
+                15;
 
 
             addSignal(
@@ -1179,7 +1321,8 @@ async function scanWebsite() {
             url.protocol !== "https:"
         ) {
 
-            score -= 20;
+            score -=
+                20;
 
 
             addSignal(
@@ -1209,7 +1352,8 @@ async function scanWebsite() {
         ========================= */
 
         updateScore(
-            score
+            score,
+            suspiciousSignals
         );
 
 
@@ -1300,10 +1444,17 @@ async function scanWebsite() {
                 new Date().toLocaleString(
                     [],
                     {
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit"
+                        month:
+                            "short",
+
+                        day:
+                            "numeric",
+
+                        hour:
+                            "2-digit",
+
+                        minute:
+                            "2-digit"
                     }
                 )
 
