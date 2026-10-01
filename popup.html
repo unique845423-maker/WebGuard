@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebGuard</title>
+
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🔐
+                </div>
+
+                <div class="brand-text">
+                    <h1>WebGuard</h1>
+                    <p>Website Security Checker</p>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             CURRENT WEBSITE
+        ========================== -->
+
+        <section class="website-card">
+
+            <div class="section-label">
+                CURRENT WEBSITE
+            </div>
+
+            <div
+                id="websiteName"
+                class="website-name"
+            >
+                Checking...
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             WEBSITE INFORMATION
+        ========================== -->
+
+        <section class="info-card">
+
+            <div class="card-title">
+                <span class="title-icon">🌐</span>
+                <span>Website Information</span>
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Page Title
+                </div>
+
+                <div
+                    id="pageTitle"
+                    class="info-value"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Domain
+                </div>
+
+                <div
+                    id="domainName"
+                    class="info-value"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Scan Time
+                </div>
+
+                <div
+                    id="scanTime"
+                    class="info-value"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
+
+            <button
+                id="copyUrl"
+                class="copy-button"
+                type="button"
+            >
+                📋 Copy URL
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             SCORE
+        ========================== -->
+
+        <section class="score-card">
+
+            <div class="score-circle">
+
+                <div
+                    id="scoreValue"
+                    class="score-value"
+                >
+                    --
+                </div>
+
+                <div class="score-label">
+                    SCORE
+                </div>
+
+            </div>
+
+
+            <div class="score-content">
+
+                <div
+                    id="scoreTitle"
+                    class="score-title"
+                >
+                    Checking website
+                </div>
+
+                <div
+                    id="scoreDescription"
+                    class="score-description"
+                >
+                    WebGuard is analyzing basic signals.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SECURITY SIGNALS
+        ========================== -->
+
+        <section class="signals-card">
+
+            <div class="card-title">
+                <span class="title-icon">🛡️</span>
+                <span>Security Signals</span>
+            </div>
+
+
+            <div class="signal-item">
+
+                <div class="signal-icon">
+                    🔒
+                </div>
+
+                <div class="signal-content">
+
+                    <div class="signal-name">
+                        HTTPS
+                    </div>
+
+                    <div class="signal-subtitle">
+                        Secure connection
+                    </div>
+
+                </div>
+
+                <div
+                    id="httpsStatus"
+                    class="signal-status"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
+
+            <div class="signal-item">
+
+                <div class="signal-icon">
+                    🔗
+                </div>
+
+                <div class="signal-content">
+
+                    <div class="signal-name">
+                        URL
+                    </div>
+
+                    <div class="signal-subtitle">
+                        Address structure
+                    </div>
+
+                </div>
+
+                <div
+                    id="urlStatus"
+                    class="signal-status"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
+
+            <div class="signal-item">
+
+                <div class="signal-icon">
+                    🌐
+                </div>
+
+                <div class="signal-content">
+
+                    <div class="signal-name">
+                        Connection
+                    </div>
+
+                    <div class="signal-subtitle">
+                        Website connection
+                    </div>
+
+                </div>
+
+                <div
+                    id="connectionStatus"
+                    class="signal-status"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SIGNAL DETAILS
+        ========================== -->
+
+        <section class="details-card">
+
+            <div class="card-title">
+                <span class="title-icon">🔎</span>
+                <span>Signal Details</span>
+            </div>
+
+            <div
+                id="signalList"
+                class="signal-details"
+            >
+                Analyzing...
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SECURITY TIP
+        ========================== -->
+
+        <section class="tips-card">
+
+            <div class="tips-header">
+                <span>💡</span>
+                <span>Security Tip</span>
+            </div>
+
+            <div
+                id="tipsText"
+                class="tips-text"
+            >
+                Always check the website address before entering
+                passwords, payment details, or personal information.
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RESULT
+        ========================== -->
+
+        <section
+            id="result"
+            class="result-card"
+        >
+
+            <strong>
+                Checking website...
+            </strong>
+
+            <span>
+                Please wait while WebGuard analyzes this page.
+            </span>
+
+        </section>
+
+
+        <!-- =========================
+             SCAN AGAIN
+        ========================== -->
+
+        <button
+            id="scanAgain"
+            class="scan-button"
+            type="button"
+        >
+            🔄 Scan Again
+        </button>
+
+
+        <!-- =========================
+             RECENT SCANS
+        ========================== -->
+
+        <section class="history-card">
+
+            <div class="card-title">
+                <span class="title-icon">🕘</span>
+                <span>Recent Scans</span>
+            </div>
+
+
+            <div
+                id="scanHistory"
+                class="scan-history"
+            >
+                <div class="history-empty">
+                    No recent scans.
+                </div>
+            </div>
+
+
+            <button
+                id="clearHistory"
+                class="clear-history-button"
+                type="button"
+            >
+                🗑️ Clear History
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <footer class="footer">
+
+            <div class="footer-title">
+                WebGuard Basic Protection
+            </div>
+
+            <div class="footer-text">
+                Checks common website security signals.
+                It does not guarantee that a website is safe.
+            </div>
+
+        </footer>
+
+    </div>
+
+
+    <script src="popup.js"></script>
+
+</body>
+
+</html>
